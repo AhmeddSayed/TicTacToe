@@ -37,7 +37,6 @@ class GamePanel extends JPanel {
     Graphics2D g2d;
     folder theFolder = new folder();
     ArrayList<Rectangle> moves = new ArrayList();
-    Player human, compuer;
     Heuristics h;
     boolean gameOver;
     ArrayList<Point> XMoves = new ArrayList();
@@ -316,7 +315,7 @@ class GamePanel extends JPanel {
         theButtons[0].setName("newGame");
         theButtons[0].setText("Play Again");
         theButtons[1].setName("goBack");
-        theButtons[1].setText("Go Back");
+        theButtons[1].setText("Exit");
 
         theButtons[0].addActionListener(new ActionListener() {
             @Override
