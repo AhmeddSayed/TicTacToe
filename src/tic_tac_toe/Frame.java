@@ -5,16 +5,10 @@
  */
 package tic_tac_toe;
 
-import AI.EvaluateFile;
-import adversary_search.folder;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import javafx.scene.layout.Pane;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -137,7 +131,6 @@ public class Frame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
-
         });
     }
 

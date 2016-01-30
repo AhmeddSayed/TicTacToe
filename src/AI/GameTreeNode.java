@@ -18,6 +18,7 @@ public class GameTreeNode {
     String Name, move;
 
     private ArrayList<GameTreeNode> children;
+
     private String parentName;
     protected int[][] rows;
 
