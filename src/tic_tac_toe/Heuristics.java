@@ -35,8 +35,16 @@ public class Heuristics {
         headState.setRows(rows);
         headState.setChildren(generateChildren(headState, 1));
         //
+        for (GameTreeNode n : headState.getChildren()) {
+            //System.out.println("Rows: \n" + Arrays.toString(n.getRows()));
+            System.out.println("Move: " + n.getMove());
+            System.out.println("H: " + n.getHeuristic());
+            System.out.println("N: " + n.getChildren().size());
+        }
+        System.out.println("=====================");
+
         this.bestMove = m.miniMax(headState, Integer.MAX_VALUE, Integer.MIN_VALUE, true);
-        System.out.println("best value is" + bestMove.getHeuristic());
+        //System.out.println("best value is" + bestMove.getHeuristic());
     }
 
     public ArrayList<String> checkAllPossibleMovements(int[][] rows) {
@@ -62,7 +70,6 @@ public class Heuristics {
 
         if (allMoves.isEmpty()) {
             // game over
-            this.bestMove = null;
         } else {
             childRows = copyOf(theRows);
 
@@ -81,14 +88,16 @@ public class Heuristics {
                 // playing the move
                 newChildRows[i][j] = turn;
                 aNode.setRows(newChildRows);
-                aNode.setHeuristic(calculateHeuristic(head.getRows()));
+                children.add(aNode);
 
                 if (turn == 1) {
                     aNode.setChildren(generateChildren(aNode, -1));
                 } else {
                     aNode.setChildren(generateChildren(aNode, 1));
                 }
-                children.add(aNode);
+
+                aNode.setHeuristic(calculateHeuristic(aNode.getRows()));
+
             }
         }
         return children;
@@ -227,11 +236,11 @@ public class Heuristics {
             } else {
                 // No O's in this row
                 if (hOrowCount == 0) {
-                    hScore = (int) Math.pow(-1, hXrowCount);
+                    hScore = -1 * hXrowCount;
                 } else {
                     // No X's in this row
                     if (hXrowCount == 0) {
-                        hScore = (int) Math.pow(-1, hOrowCount);
+                        hScore = hOrowCount;
                     }
                 }
             }
