@@ -8,19 +8,21 @@ package AI;
 public class MiniMax {
 
     public String miniMax(GameTreeNode currentNode) {
-        int value = Integer.MIN_VALUE;
+        int value = -100;
         String bestMove = "";
 
         for (GameTreeNode aNode : currentNode.getChildren()) {
 
             aNode.setHeuristic(minimax(aNode, Integer.MIN_VALUE, Integer.MAX_VALUE, true));
-            if (aNode.getHeuristic() >= value) {
-                bestMove = aNode.getMove();
-                value = aNode.getHeuristic();
-                System.out.println("Best Move is: " + bestMove);
-                System.out.println("Best value is: " + value);
+            if (aNode.getHeuristic() != -100) {
+                if (aNode.getHeuristic() >= value) {
+                    bestMove = aNode.getMove();
+                    value = aNode.getHeuristic();
+                }
             }
         }
+        System.out.println("Best Move is: " + bestMove);
+        System.out.println("Best value is: " + value);
         System.out.println("==================================");
 
         return bestMove;
@@ -37,7 +39,7 @@ public class MiniMax {
             for (GameTreeNode aNode : currentNode.getChildren()) {
                 value = Math.max(value, minimax(aNode, value, beta, false));
                 alpha = Math.max(value, alpha);
-                if (beta <= value) {
+                if (beta < value) {
                     break;
                 }
             }
@@ -46,7 +48,7 @@ public class MiniMax {
             for (GameTreeNode aNode : currentNode.getChildren()) {
                 value = Math.min(value, minimax(aNode, alpha, value, true));
                 beta = Math.min(value, beta);
-                if (value <= alpha) {
+                if (value < alpha) {
                     break;
                 }
             }

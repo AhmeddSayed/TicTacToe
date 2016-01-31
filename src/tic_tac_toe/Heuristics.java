@@ -36,17 +36,7 @@ public class Heuristics {
         headState.setRows(rows);
         headState.setChildren(generateChildren(headState, 1));
 
-        for (GameTreeNode n : headState.getChildren()) {
-            //System.out.println("Rows: \n" + Arrays.toString(n.getRows()));
-            System.out.println("Move: " + n.getMove());
-            System.out.println("H: " + n.getHeuristic());
-        }
-        System.out.println("=====================");
-
         this.bestMove = m.miniMax(headState);
-
-        //System.out.println("best move is" + bestMove);
-        //System.out.println("best value is" + bestMove);
     }
 
     public ArrayList<String> checkAllPossibleMovements(int[][] rows) {
@@ -144,8 +134,8 @@ public class Heuristics {
          vScore    : the vertical score
          dScore    : the diagonal score
          */
-        int hXrowCount = 0, hOrowCount = 0;
-        int vXrowCount = 0, vOrowCount = 0;
+        int hXrowCount, hOrowCount;
+        int vXrowCount, vOrowCount;
         int d1XrowCount = 0, d1OrowCount = 0;
         int d2XrowCount = 0, d2OrowCount = 0;
         int hScore = 0, vScore = 0, dScore = 0;
@@ -165,7 +155,7 @@ public class Heuristics {
             hXrowCount = 0;
             vOrowCount = 0;
             vXrowCount = 0;
-            
+
             for (int j = 0; j < 3; j++) {
                 if (rows[i][j] != 0 && !gameOver) {
                     // Checking Horizontally
@@ -222,38 +212,45 @@ public class Heuristics {
             if (!gameOver) {
                 if (hOrowCount == 3) {
                     gameOver = true;
-                    hScore = 100;
+                    hScore = 1;
                 } else if (hXrowCount == 3) {
                     gameOver = true;
-                    hScore = -100;
+                    hScore = -1;
                 }
+            }
+            if (!gameOver) {
+
                 // Checking vertical data
                 if (vOrowCount == 3) {
                     gameOver = true;
-                    vScore = 100;
+                    vScore = 1;
                 } else if (vXrowCount == 3) {
                     gameOver = true;
-                    vScore = -100;
+                    vScore = -1;
                 }
+            }
+            if (!gameOver) {
 
                 if (d1OrowCount == 3) {
                     gameOver = true;
-                    dScore = 100;
+                    dScore = 1;
                 } else if (d1XrowCount == 3) {
                     gameOver = true;
-                    dScore = -100;
+                    dScore = -1;
                 }
+            }
+            if (!gameOver) {
 
                 // Checking data for second diagonal
                 if (d2OrowCount == 3) {
                     gameOver = true;
-                    dScore = 100;
+                    dScore = 1;
                 } else if (d2XrowCount == 3) {
                     gameOver = true;
-                    dScore = -100;
+                    dScore = -1;
                 }
 
-            }else{
+            } else {
                 break;
             }
         }
