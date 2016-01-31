@@ -14,11 +14,15 @@ public class MiniMax {
         for (GameTreeNode aNode : currentNode.getChildren()) {
 
             aNode.setHeuristic(minimax(aNode, Integer.MIN_VALUE, Integer.MAX_VALUE, true));
-            if (aNode.getHeuristic() > value) {
+            if (aNode.getHeuristic() >= value) {
                 bestMove = aNode.getMove();
                 value = aNode.getHeuristic();
+                System.out.println("Best Move is: " + bestMove);
+                System.out.println("Best value is: " + value);
             }
         }
+        System.out.println("==================================");
+
         return bestMove;
     }
 
