@@ -21,7 +21,8 @@ public class Heuristics {
     MiniMax m;
     folder theFolder;
     ArrayList<String> possibleMoves = new ArrayList();
-    GameTreeNode headState, bestMove;
+    GameTreeNode headState;
+    String bestMove;
     int nodeNumber = 0;
 
     public Heuristics() {
@@ -35,16 +36,17 @@ public class Heuristics {
         headState.setRows(rows);
         headState.setChildren(generateChildren(headState, 1));
         //
-        for (GameTreeNode n : headState.getChildren()) {
-            //System.out.println("Rows: \n" + Arrays.toString(n.getRows()));
-            System.out.println("Move: " + n.getMove());
-            System.out.println("H: " + n.getHeuristic());
-            System.out.println("N: " + n.getChildren().size());
-        }
-        System.out.println("=====================");
+        //for (GameTreeNode n : headState.getChildren()) {
+        //System.out.println("Rows: \n" + Arrays.toString(n.getRows()));
+        //  System.out.println("Move: " + n.getMove());
+        //System.out.println("H: " + n.getHeuristic());
+        //}
+        //System.out.println("=====================");
 
-        this.bestMove = m.miniMax(headState, Integer.MAX_VALUE, Integer.MIN_VALUE, true);
-        //System.out.println("best value is" + bestMove.getHeuristic());
+        this.bestMove = m.miniMax(headState);
+
+        //System.out.println("best move is" + bestMove);
+        //System.out.println("best value is" + bestMove);
     }
 
     public ArrayList<String> checkAllPossibleMovements(int[][] rows) {
@@ -70,6 +72,7 @@ public class Heuristics {
 
         if (allMoves.isEmpty()) {
             // game over
+
         } else {
             childRows = copyOf(theRows);
 
@@ -89,14 +92,12 @@ public class Heuristics {
                 newChildRows[i][j] = turn;
                 aNode.setRows(newChildRows);
                 children.add(aNode);
-
+                aNode.setHeuristic(calculateHeuristic(newChildRows));
                 if (turn == 1) {
                     aNode.setChildren(generateChildren(aNode, -1));
                 } else {
                     aNode.setChildren(generateChildren(aNode, 1));
                 }
-
-                aNode.setHeuristic(calculateHeuristic(aNode.getRows()));
 
             }
         }
@@ -104,7 +105,7 @@ public class Heuristics {
     }
 
     public String getMove() {
-        return this.bestMove.getMove();
+        return this.bestMove;
     }
 
     private static int[][] copyOf(int[][] original) {
@@ -152,6 +153,7 @@ public class Heuristics {
         int d1XrowCount = 0, d1OrowCount = 0, d1ZrowCount = 0;
         int d2XrowCount = 0, d2OrowCount = 0, d2ZrowCount = 0;
         int hScore = 0, vScore = 0, dScore = 0;
+        boolean gameOver = false;
 
         /* Checking Horizontally:
         
@@ -164,7 +166,7 @@ public class Heuristics {
          */
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (rows[i][j] != 0) {
+                if (rows[i][j] != 0 && !gameOver) {
                     // Checking Horizontally
                     switch (rows[i][j]) {
                         case 0:
@@ -228,69 +230,122 @@ public class Heuristics {
                     }
                 }
             }
-
-            // Checking horizontal data
-            if (hZrowCount == 3) {
-                // an empty row
-                hScore = 1;
-            } else {
-                // No O's in this row
-                if (hOrowCount == 0) {
-                    hScore = -1 * hXrowCount;
+            if (!gameOver) {
+                // Checking horizontal data
+                if (hZrowCount == 3) {
+                    // an empty row
+                    hScore += 3;
                 } else {
-                    // No X's in this row
-                    if (hXrowCount == 0) {
-                        hScore = hOrowCount;
+                    // No O's in this row
+                    if (hOrowCount == 0) {
+                        hScore += -10 * hXrowCount + 1 * (3 - hXrowCount);
+                    } else {
+                        if (hXrowCount == 0) {
+                            // No X's in this row
+                            hScore += 10 * hOrowCount;
+                        } else {
+                            hScore += 10 * hOrowCount + 1 * (3 - hOrowCount - hXrowCount) - 10 * hXrowCount;
+                        }
+
                     }
                 }
+
+                if (hOrowCount == 3) {
+                    gameOver = true;
+                    hScore = 100;
+                }
+                if (hXrowCount == 3) {
+                    gameOver = true;
+                    hScore = -100;
+                }
             }
         }
-
         // Checking vertical data
-        if (vZrowCount == 3) {
-            // an empty row
-            vScore = 1;
-        } else {
-            // No O's in this row
-            if (vOrowCount == 0) {
-                vScore = -1 * vXrowCount;
+
+        if (!gameOver) {
+            if (vZrowCount == 3) {
+                // an empty row
+                vScore += 3;
             } else {
-                // No X's in this row
-                if (vXrowCount == 0) {
-                    vScore = 1 * vOrowCount;
+                // No O's in this row
+                if (vOrowCount == 0) {
+                    vScore += -10 * vXrowCount + 1 * (3 - vXrowCount);
+                } else {
+                    if (vXrowCount == 0) {
+                        // No X's in this row
+                        vScore += 10 * vOrowCount;
+                    } else {
+                        vScore += 10 * vOrowCount + 1 * vZrowCount - 10 * vXrowCount;
+                    }
+
                 }
+            }
+
+            if (vOrowCount == 3) {
+                gameOver = true;
+                vScore = 100;
+            }
+            if (vXrowCount == 3) {
+                gameOver = true;
+                vScore = -100;
             }
         }
-
-        // Checking data for first diagonal
-        if (d1ZrowCount == 3) {
-            // an empty row
-            vScore = 1;
-        } else {
-            // No O's in this row
-            if (d1OrowCount == 0) {
-                dScore = -1 * d1XrowCount;
+        if (!gameOver) {
+            // Checking data for first diagonal
+            if (d1ZrowCount == 3) {
+                // an empty row
+                dScore += 3;
             } else {
-                // No X's in this row
-                if (d1XrowCount == 0) {
-                    dScore = 1 * d1OrowCount;
+                // No O's in this row
+                if (d1OrowCount == 0) {
+                    dScore += -10 * d1XrowCount + 1 * (3 - d1XrowCount);
+                } else {
+                    if (d1XrowCount == 0) {
+                        // No X's in this row
+                        dScore += 10 * d1OrowCount;
+                    } else {
+                        dScore += 10 * d1OrowCount + 1 * d1ZrowCount - 10 * d1XrowCount;
+                    }
+
                 }
             }
+            if (d1OrowCount == 3) {
+                gameOver = true;
+                dScore = 100;
+            }
+            if (d1XrowCount == 3) {
+                gameOver = true;
+                dScore = -100;
+            }
+
         }
 
         // Checking data for second diagonal
-        if (d2ZrowCount == 3) {
-            // an empty row
-            dScore = 1;
-        } else {
-            // No O's in this row
-            if (d2OrowCount == 0) {
-                dScore = -1 * d2XrowCount;
+        if (!gameOver) {
+            if (d2ZrowCount == 3) {
+                // an empty row
+                dScore += 3;
             } else {
-                // No X's in this row
-                if (d2XrowCount == 0) {
-                    dScore = 1 * d2OrowCount;
+                // No O's in this row
+                if (d2OrowCount == 0) {
+                    dScore += -10 * d2XrowCount + 1 * (3 - d2XrowCount);
+                } else {
+                    if (d2XrowCount == 0) {
+                        // No X's in this row
+                        dScore += 10 * d2OrowCount;
+                    } else {
+                        dScore += 10 * d2OrowCount + 1 * d2ZrowCount - 10 * d2XrowCount;
+                    }
+
                 }
+            }
+            if (d2OrowCount == 3) {
+                gameOver = true;
+                dScore = 100;
+            }
+            if (d2XrowCount == 3) {
+                gameOver = true;
+                dScore = -100;
             }
         }
         return (hScore + vScore + dScore);

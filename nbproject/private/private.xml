@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="UTF-8"?>
-<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
-    </open-files>
-</project-private>
-=======
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
@@ -14,16 +5,9 @@
         <group>
             <file>file:/C:/Users/Ahmed/Documents/NetBeansProjects/Adversary_Search/src/AI/GameTreeNode.java</file>
             <file>file:/C:/Users/Ahmed/Documents/NetBeansProjects/Adversary_Search/src/tic_tac_toe/Frame.java</file>
-            <file>file:/C:/Users/Ahmed/Documents/NetBeansProjects/Adversary_Search/src/adversary_search/Adversary_Search.java</file>
-            <file>file:/C:/Users/Ahmed/Documents/NetBeansProjects/Adversary_Search/src/tic_tac_toe/Point.java</file>
             <file>file:/C:/Users/Ahmed/Documents/NetBeansProjects/Adversary_Search/src/tic_tac_toe/Heuristics.java</file>
             <file>file:/C:/Users/Ahmed/Documents/NetBeansProjects/Adversary_Search/src/AI/MiniMax.java</file>
-            <file>file:/C:/Users/Ahmed/Documents/NetBeansProjects/Adversary_Search/src/resources/input.txt</file>
-            <file>file:/C:/Users/Ahmed/Documents/NetBeansProjects/Adversary_Search/src/tic_tac_toe/PointsAndScores.java</file>
-            <file>file:/C:/Users/Ahmed/Documents/NetBeansProjects/Adversary_Search/src/tic_tac_toe/Player.java</file>
-            <file>file:/C:/Users/Ahmed/Documents/NetBeansProjects/Adversary_Search/src/AI/EvaluateFile.java</file>
             <file>file:/C:/Users/Ahmed/Documents/NetBeansProjects/Adversary_Search/src/tic_tac_toe/GamePanel.java</file>
         </group>
     </open-files>
 </project-private>
->>>>>>> 7fcc5a5ebea574a048d6240fc98105dc3bcb9753
